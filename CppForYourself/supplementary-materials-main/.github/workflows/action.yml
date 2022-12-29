@@ -1,0 +1,25 @@
+name: Checks
+
+on: push
+
+jobs:
+  markdown-link-check:
+    name: All Markdown links are valid
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: gaurav-nelson/github-action-markdown-link-check@v1
+  
+  check-snippet-compilation:
+    name: All code snippets compile
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check that all snippets compile
+      run: |
+        pip install pipenv
+        cd scripts
+        pipenv install
+        pipenv run python3 validate_code_snippets.py --project-folder ../
